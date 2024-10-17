@@ -1,20 +1,28 @@
 import { registerFn } from "../common/plugin-element-cache";
+import cssString from "inline:./styles/index.css";
 import pluginInfo from "../plugin-manifest.json";
-import cssString from "inline:./styles/style.css";
-import { handleGridPlugin } from "./grid-renderers";
+import { handleManagePlugin } from "./manage-form";
+import { handlePanelPlugin } from "./sidebar-panel";
 
-registerFn(pluginInfo, (handler, client) => {
-  /**
-   * Add plugin styles to the head of the document
-   */
+const loadStyles = () => {
   if (!document.getElementById(`${pluginInfo.id}-styles`)) {
     const style = document.createElement("style");
     style.id = `${pluginInfo.id}-styles`;
     style.textContent = cssString;
     document.head.appendChild(style);
   }
+};
 
-  handler.on("flotiq.grid.cell::render", (data) =>
-    handleGridPlugin(data, client, pluginInfo),
-  );
-});
+registerFn(
+  pluginInfo,
+  (handler, _client, { getLanguage, getPluginSettings }) => {
+    loadStyles();
+
+    handler.on("flotiq.plugins.manage::form-schema", (data) =>
+      handleManagePlugin(data, pluginInfo, getLanguage),
+    );
+    handler.on("flotiq.form.sidebar-panel::add", (data) =>
+      handlePanelPlugin(data, pluginInfo, getPluginSettings),
+    );
+  },
+);

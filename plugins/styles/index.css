@@ -1,0 +1,110 @@
+.plugin-preview-links {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.plugin-preview-links__item {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+  row-gap: 0.5rem;
+}
+
+/* Panel Header */
+.plugin-preview-links__header {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+/* Panel Button */
+.plugin-preview-links__link,
+.plugin-preview-links__link:focus {
+  box-sizing: border-box;
+  display: flex;
+  cursor: pointer;
+  color: #0083fc;
+  font-weight: 600;
+  height: 36px;
+  align-items: center;
+  gap: 4px;
+  transition-property: color, background-color, filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  text-decoration: none;
+}
+
+.plugin-preview-links__preview-link {
+  border: 2px solid #0083fc;
+  border-radius: 10px;
+  padding: 0 14px;
+}
+
+.plugin-preview-links__link::before {
+  content: url("../../images/preview-icon.svg");
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+
+.plugin-preview-links__public-link::before {
+  content: url("../../images/public-icon.svg");
+}
+
+.plugin-preview-links__preview-link:hover {
+  color: white;
+  background-color: #0083fc;
+  text-decoration: none;
+}
+
+.plugin-preview-links__preview-link:hover::before {
+  filter: brightness(100);
+}
+
+.plugin-preview-links__public-link:hover {
+  color: #015bd7;
+}
+
+.plugin-preview-links__public-link:hover::before {
+  filter: contrast(1.05) brightness(0.7) sepia(0.1) saturate(1.2)
+    hue-rotate(6deg);
+}
+
+.plugin-preview-links__preview-link[disabled],
+.plugin-preview-links__public-link[disabled] {
+  border-color: silver;
+  opacity: 0.3;
+  cursor: auto;
+  pointer-events: none;
+  position: relative;
+}
+
+.plugin-preview-links__link--loading::before {
+  content: " ";
+  border: 2px solid #f3f3f3;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border-top: 2px solid #0083fc;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  margin: 0 4px;
+  filter: none !important;
+}
+
+/* Theme: dark */
+.mode-dark .plugin-preview-links {
+  background: #020617;
+}
+
+.mode-dark .plugin-preview-links__header {
+  color: white;
+}
+
+.mode-dark .plugin-preview-links__preview-link__button,
+.mode-dark .plugin-preview-links__public-link__button {
+  color: white;
+}
