@@ -73,15 +73,6 @@
     hue-rotate(6deg);
 }
 
-.plugin-preview-links__preview-link[disabled],
-.plugin-preview-links__public-link[disabled] {
-  border-color: silver;
-  opacity: 0.3;
-  cursor: auto;
-  pointer-events: none;
-  position: relative;
-}
-
 .plugin-preview-links__link--loading::before {
   content: " ";
   border: 2px solid #f3f3f3;
@@ -93,6 +84,25 @@
   height: 16px;
   margin: 0 4px;
   filter: none !important;
+}
+
+.plugin-preview-links__link--loading {
+  pointer-events: none;
+  user-select: none;
+}
+
+.plugin-preview-links__link--disabled,
+.plugin-preview-links__link--disabled:hover,
+.plugin-preview-links__link--disabled:active,
+.plugin-preview-links__link--disabled:focus {
+  color: #8ea1b8;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+.plugin-preview-links__link--disabled::before,
+.plugin-preview-links__link--disabled:hover::before {
+  filter: grayscale(1) brightness(1.3);
 }
 
 /* Theme: dark */

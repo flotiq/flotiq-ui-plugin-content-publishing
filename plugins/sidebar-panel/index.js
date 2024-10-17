@@ -4,30 +4,6 @@ import {
 } from "../../common/plugin-element-cache";
 import { createLinksItem, updateLinkButtons } from "./panel-button";
 
-// const onClick = (e) => {
-//   e.preventDefault();
-//   const url = e.target.href;
-//   window.open(url, "_blank");
-// };
-
-// const generateLink = (parsedSettings, path, isDraft) => {
-//   const url =
-//     `${parsedSettings.base_url}/api/flotiq/` +
-//     `drat?draft=${isDraft}&key=${parsedSettings.editorKey}&redirect=${path}`;
-
-//   const link = document.createElement("a");
-//   link.setAttribute("class", "link-button");
-//   link.setAttribute("href", url);
-
-//   const span = document.createElement("span");
-//   span.textContent = isDraft ? "Preview and save draft" : "Public version";
-
-//   link.appendChild(span);
-//   link.addEventListener("click", onClick);
-
-//   return link;
-// };
-
 const createPanelElement = (cacheKey) => {
   const panelElement = document.createElement("div");
   panelElement.classList.add("plugin-preview-links");
@@ -48,6 +24,8 @@ const updatePanelElement = (
   parsedSettings,
   settingsForCtd,
   contentObject,
+  formik,
+  create,
 ) => {
   const buttonList = pluginContainer.querySelector(
     ".plugin-preview-links__button-list",
@@ -59,7 +37,14 @@ const updatePanelElement = (
       htmlItem = createLinksItem();
       buttonList.appendChild(htmlItem);
     }
-    updateLinkButtons(htmlItem, parsedSettings, buttonSettings, contentObject);
+    updateLinkButtons(
+      htmlItem,
+      parsedSettings,
+      buttonSettings,
+      contentObject,
+      formik,
+      create,
+    );
     return htmlItem;
   });
 
@@ -70,7 +55,7 @@ const updatePanelElement = (
 };
 
 export const handlePanelPlugin = (
-  { contentType, contentObject, duplicate, create },
+  { contentType, contentObject, create, formik },
   pluginInfo,
   getPluginSettings,
 ) => {
@@ -78,11 +63,10 @@ export const handlePanelPlugin = (
   const parsedSettings = JSON.parse(pluginSettings || "{}");
 
   if (
-    !contentObject ||
+    (!contentObject && !create) ||
     !contentType?.name ||
-    create ||
-    duplicate ||
-    !parsedSettings
+    !parsedSettings ||
+    !formik
   )
     return null;
 
@@ -94,7 +78,7 @@ export const handlePanelPlugin = (
 
   if (!settingsForCtd.length) return null;
 
-  const cacheKey = `${pluginInfo.id}-${contentType.name}-${contentObject.id}`;
+  const cacheKey = `${pluginInfo.id}-${contentType.name}-${contentObject?.id || "new"}`;
 
   let pluginContainer = getCachedElement(cacheKey)?.element;
 
@@ -107,6 +91,8 @@ export const handlePanelPlugin = (
     parsedSettings,
     settingsForCtd,
     contentObject,
+    formik,
+    create,
   );
 
   return pluginContainer;
