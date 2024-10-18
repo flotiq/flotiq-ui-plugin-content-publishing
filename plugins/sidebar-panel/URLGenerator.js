@@ -33,7 +33,7 @@ export class URLGenerator {
     );
 
     baseURLInstance.searchParams.set("draft", draft.toString());
-    baseURLInstance.searchParams.set("redirect", `/${path.replace(/^\//)}`);
+    baseURLInstance.searchParams.set("redirect", `/${path.replace(/^\//, "")}`);
 
     return baseURLInstance;
   }
