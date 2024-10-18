@@ -1,3 +1,4 @@
+import i18n from "../../i18n";
 import { onPreviewClick, onPublicClick } from "./link-actions";
 import { URLGenerator } from "./URLGenerator";
 import previewIcon from "inline:../../images/preview-icon.svg";
@@ -19,6 +20,10 @@ export const updateLinks = (
     ".plugin-preview-links__public-link",
   );
 
+  previewLink.querySelector("span").textContent = publicLink
+    ? i18n.t("PreviewAndSave")
+    : i18n.t("SaveAndView");
+
   previewLink.href = urlGenerator.getURL(formik.initialValues, !!publicLink);
 
   previewLink.onclick = (event) => {
@@ -28,12 +33,16 @@ export const updateLinks = (
 
   if (!publicLink) return;
 
+  publicLink.querySelector("span").textContent = i18n.t("PublicVersion");
+
   if (!publicVersionPromise) {
     publicLink.classList.add("plugin-preview-links__link--disabled");
+  } else {
+    publicLink.classList.remove("plugin-preview-links__link--disabled");
     publicVersionPromise.then((publicVersion) => {
       publicLink.href = urlGenerator.getURL(publicVersion, !!publicLink);
     });
-  } else publicLink.classList.remove("plugin-preview-links__link--disabled");
+  }
 
   publicLink.onclick = (event) => {
     event.preventDefault();
@@ -49,18 +58,20 @@ export const createLinks = (isPublishingWorkflow) => {
     containerItem.innerHTML = /* html */ `
     <a class="plugin-preview-links__link plugin-preview-links__preview-link">
         ${previewIcon}
-        Preview and save draft
+        <span>Preview and save draft</span>
     </a>
     <a class="plugin-preview-links__link plugin-preview-links__public-link">
         ${publicIcon}
-        Public version
+        <span>Public version</span>
     </a>
   `;
   } else {
+    containerItem.classList.add("plugin-preview-links__generic");
+
     containerItem.innerHTML = /* html */ `
     <a class="plugin-preview-links__link plugin-preview-links__preview-link">
         ${previewIcon}
-        Save and view
+        <span>Save and view</span>
     </a>
   `;
   }
