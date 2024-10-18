@@ -16,6 +16,7 @@ const onPreviewClick = async (
   routeTemplate,
   formik,
   create,
+  isAlsoPublic,
 ) => {
   event.preventDefault();
 
@@ -32,7 +33,7 @@ const onPreviewClick = async (
   if (!error) {
     const path = getPath(routeTemplate, formikResponse?.[0] || formik.values);
 
-    baseURLInstance.searchParams.set("draft", "true");
+    baseURLInstance.searchParams.set("draft", `${!isAlsoPublic}`);
     baseURLInstance.searchParams.set("redirect", path);
 
     window.open(baseURLInstance);
@@ -102,7 +103,10 @@ export const updateLinkButtons = (
       buttonSettings.route_template,
       formik,
       create,
+      !publicLink,
     );
+
+  if (!publicLink) return;
 
   const type = contentObject?.internal?.contentType;
   const id = contentObject?.id;
@@ -122,11 +126,12 @@ export const updateLinkButtons = (
     );
 };
 
-export const createLinksItem = () => {
+export const createLinksItem = (isPublishingWorkflow) => {
   const containerItem = document.createElement("div");
   containerItem.classList.add("plugin-preview-links__item");
 
-  containerItem.innerHTML = /* html */ `
+  if (isPublishingWorkflow) {
+    containerItem.innerHTML = /* html */ `
     <a class="plugin-preview-links__link plugin-preview-links__preview-link">
         Preview and save draft
     </a>
@@ -134,6 +139,13 @@ export const createLinksItem = () => {
         Public version
     </a>
   `;
+  } else {
+    containerItem.innerHTML = /* html */ `
+    <a class="plugin-preview-links__link plugin-preview-links__preview-link">
+      Save and view
+    </a>
+  `;
+  }
 
   return containerItem;
 };

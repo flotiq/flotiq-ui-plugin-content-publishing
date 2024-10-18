@@ -28,6 +28,7 @@ const updatePanelElement = (
   contentObject,
   formik,
   create,
+  isPublishingWorkflow,
 ) => {
   const buttonList = pluginContainer.querySelector(
     ".plugin-preview-links__button-list",
@@ -36,7 +37,7 @@ const updatePanelElement = (
   settingsForCtd.forEach((buttonSettings, index) => {
     let htmlItem = buttonList.children[index];
     if (!htmlItem) {
-      htmlItem = createLinksItem();
+      htmlItem = createLinksItem(isPublishingWorkflow);
       buttonList.appendChild(htmlItem);
     }
     updateLinkButtons(
@@ -85,12 +86,13 @@ export const handlePanelPlugin = (
   }
 
   const cacheKey = `${pluginInfo.id}-${contentType.name}-${contentObject?.id || "new"}`;
-
   let pluginContainer = getCachedElement(cacheKey)?.element;
-
   if (!pluginContainer) {
     pluginContainer = createPanelElement(cacheKey);
   }
+
+  const isPublishingWorkflow =
+    contentType.workflowId === "draft_public_archive";
 
   updatePanelElement(
     pluginContainer,
@@ -99,6 +101,7 @@ export const handlePanelPlugin = (
     contentObject,
     formik,
     create,
+    isPublishingWorkflow,
   );
 
   return pluginContainer;
