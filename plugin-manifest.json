@@ -2,8 +2,13 @@
   "id": "flotiq.preview-links",
   "name": "Preview links",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "repository": "https://github.com/flotiq/flotiq-ui-plugin-nextjs-links",
   "url": "https://localhost:3053/index.js",
-  "permissions": []
+  "permissions": [
+    {
+      "type": "CO",
+      "canRead": true
+    }
+  ]
 }

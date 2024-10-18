@@ -1,11 +1,11 @@
 import i18n from "../../i18n";
 import { getSchema } from "./form-schema";
+import pluginInfo from "../../plugin-manifest.json";
 
 let configCache = null;
 
 export const handleManagePlugin = (
   { plugin, contentTypes, modalInstance },
-  pluginInfo,
   getLanguage,
 ) => {
   if (plugin?.id !== pluginInfo.id) return null;

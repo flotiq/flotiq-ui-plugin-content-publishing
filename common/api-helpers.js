@@ -1,17 +1,29 @@
-const cachedRelationData = {};
+export const cachedPublicVersions = {};
 
-const getRelationData = (client, dataUrl) => {
-  if (!dataUrl) return null;
-  if (cachedRelationData[dataUrl]) return cachedRelationData[dataUrl];
-  const { contentTypeName, id } = dataUrl.match(
-    /(?<contentTypeName>[^/]+)\/(?<id>[^/]+)$/,
-  ).groups;
+export const getPublicVersion = (client, object) => {
+  const publicVersion = object?.internal?.workflowPublicVersion;
+  const type = object?.internal?.contentType;
+  const id = object?.id;
 
-  cachedRelationData[dataUrl] = client[contentTypeName]
-    .get(id)
+  if (!type || !id) {
+    return null;
+  }
+
+  const cachedVersion = cachedPublicVersions[type]?.[id];
+
+  if (!publicVersion || publicVersion < 0) {
+    if (cachedVersion) delete cachedPublicVersions[type][id];
+    return null;
+  }
+
+  if (cachedVersion && cachedVersion?.inernal?.latestVersion === publicVersion)
+    return cachedPublicVersions[type][id];
+
+  if (!cachedPublicVersions[type]) cachedPublicVersions[type] = {};
+
+  cachedPublicVersions[type][id] = client[type]
+    .getVersion(id, publicVersion)
     .then(({ body }) => body);
 
-  return cachedRelationData[dataUrl];
+  return cachedPublicVersions[type][id];
 };
-
-export { getRelationData };

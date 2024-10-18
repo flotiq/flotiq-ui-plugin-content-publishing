@@ -16,14 +16,14 @@ const loadStyles = () => {
 
 registerFn(
   pluginInfo,
-  (handler, _client, { getLanguage, getPluginSettings }) => {
+  (handler, client, { getLanguage, getPluginSettings }) => {
     loadStyles();
 
     handler.on("flotiq.plugins.manage::form-schema", (data) =>
-      handleManagePlugin(data, pluginInfo, getLanguage),
+      handleManagePlugin(data, getLanguage),
     );
     handler.on("flotiq.form.sidebar-panel::add", (data) =>
-      handlePanelPlugin(data, pluginInfo, getPluginSettings),
+      handlePanelPlugin(data, getPluginSettings, client),
     );
     handler.on("flotiq.form.field::config", (data) =>
       handleFormFieldConfig(data),

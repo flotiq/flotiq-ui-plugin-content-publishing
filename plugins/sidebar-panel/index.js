@@ -1,8 +1,10 @@
+import { getPublicVersion } from "../../common/api-helpers";
 import {
   addElementToCache,
   getCachedElement,
 } from "../../common/plugin-element-cache";
 import { createLinksItem, updateLinkButtons } from "./panel-button";
+import pluginInfo from "../../plugin-manifest.json";
 
 const createPanelElement = (cacheKey) => {
   const panelElement = document.createElement("div");
@@ -56,8 +58,8 @@ const updatePanelElement = (
 
 export const handlePanelPlugin = (
   { contentType, contentObject, create, formik },
-  pluginInfo,
   getPluginSettings,
+  client,
 ) => {
   const pluginSettings = getPluginSettings();
   const parsedSettings = JSON.parse(pluginSettings || "{}");
@@ -77,6 +79,10 @@ export const handlePanelPlugin = (
   );
 
   if (!settingsForCtd.length) return null;
+
+  if (contentObject) {
+    getPublicVersion(client, contentObject);
+  }
 
   const cacheKey = `${pluginInfo.id}-${contentType.name}-${contentObject?.id || "new"}`;
 
