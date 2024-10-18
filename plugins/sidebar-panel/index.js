@@ -3,7 +3,7 @@ import {
   addElementToCache,
   getCachedElement,
 } from "../../common/plugin-element-cache";
-import { createLinksItem, updateLinkButtons } from "./panel-button";
+import { createLinks, updateLinks } from "./panel-button";
 import pluginInfo from "../../plugin-manifest.json";
 
 const createPanelElement = (cacheKey) => {
@@ -23,12 +23,11 @@ const createPanelElement = (cacheKey) => {
 
 const updatePanelElement = (
   pluginContainer,
-  parsedSettings,
   settingsForCtd,
-  contentObject,
   formik,
   create,
   isPublishingWorkflow,
+  publicVersionPromise,
 ) => {
   const buttonList = pluginContainer.querySelector(
     ".plugin-preview-links__button-list",
@@ -37,17 +36,10 @@ const updatePanelElement = (
   settingsForCtd.forEach((buttonSettings, index) => {
     let htmlItem = buttonList.children[index];
     if (!htmlItem) {
-      htmlItem = createLinksItem(isPublishingWorkflow);
+      htmlItem = createLinks(isPublishingWorkflow);
       buttonList.appendChild(htmlItem);
     }
-    updateLinkButtons(
-      htmlItem,
-      parsedSettings,
-      buttonSettings,
-      contentObject,
-      formik,
-      create,
-    );
+    updateLinks(htmlItem, buttonSettings, formik, create, publicVersionPromise);
     return htmlItem;
   });
 
@@ -73,16 +65,23 @@ export const handlePanelPlugin = (
   )
     return null;
 
-  const settingsForCtd = parsedSettings.config?.filter(
-    (plugin) =>
-      plugin.content_types.length === 0 ||
-      plugin.content_types.find((ctd) => ctd === contentType.name),
-  );
+  const settingsForCtd = parsedSettings.config
+    ?.filter(
+      (plugin) =>
+        plugin.content_types.length === 0 ||
+        plugin.content_types.find((ctd) => ctd === contentType.name),
+    )
+    ?.map((config) => ({
+      ...config,
+      editor_key: parsedSettings.editor_key,
+      base_url: parsedSettings.base_url,
+    }));
 
   if (!settingsForCtd.length) return null;
 
+  let publicVersionPromise;
   if (contentObject) {
-    getPublicVersion(client, contentObject);
+    publicVersionPromise = getPublicVersion(client, contentObject);
   }
 
   const cacheKey = `${pluginInfo.id}-${contentType.name}-${contentObject?.id || "new"}`;
@@ -96,12 +95,11 @@ export const handlePanelPlugin = (
 
   updatePanelElement(
     pluginContainer,
-    parsedSettings,
     settingsForCtd,
-    contentObject,
     formik,
     create,
     isPublishingWorkflow,
+    publicVersionPromise,
   );
 
   return pluginContainer;

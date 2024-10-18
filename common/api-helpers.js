@@ -1,4 +1,4 @@
-export const cachedPublicVersions = {};
+const cachedPublicVersions = {};
 
 export const getPublicVersion = (client, object) => {
   const publicVersion = object?.internal?.workflowPublicVersion;

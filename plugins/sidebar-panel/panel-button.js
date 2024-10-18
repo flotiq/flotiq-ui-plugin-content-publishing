@@ -1,92 +1,14 @@
-import { cachedPublicVersions } from "../../common/api-helpers";
-import { deepReadKeyValue } from "../../common/helpers";
+import { onPreviewClick, onPublicClick } from "./link-actions";
+import { URLGenerator } from "./URLGenerator";
 
-const getPath = (routeTemplate, object) => {
-  const path = routeTemplate.replace(/{(?<key>[^{}]+)}/g, (...params) => {
-    const { key } = params[4];
-    return deepReadKeyValue(key, object);
-  });
-  return `/${path.replace(/^\/+/, "")}`;
-};
-
-const onPreviewClick = async (
-  event,
-  element,
-  baseURLInstance,
-  routeTemplate,
-  formik,
-  create,
-  isAlsoPublic,
-) => {
-  event.preventDefault();
-
-  let error = false;
-  let formikResponse;
-
-  if (create || formik.dirty) {
-    element.classList.add("plugin-preview-links__link--loading");
-    formikResponse = await formik.submitForm();
-    error = !formikResponse || Object.keys(formikResponse?.[1] || {}).length;
-    element.classList.remove("plugin-preview-links__link--loading");
-  }
-
-  if (!error) {
-    const path = getPath(routeTemplate, formikResponse?.[0] || formik.values);
-
-    baseURLInstance.searchParams.set("draft", `${!isAlsoPublic}`);
-    baseURLInstance.searchParams.set("redirect", path);
-
-    window.open(baseURLInstance);
-  }
-};
-
-const onPublicClick = async (
-  event,
-  element,
-  publicVersionPromise,
-  baseURLInstance,
-  routeTemplate,
-) => {
-  event.preventDefault();
-
-  if (!publicVersionPromise) {
-    return;
-  }
-
-  try {
-    element.classList.add("plugin-preview-links__link--loading");
-    const publicVersion = await publicVersionPromise;
-    element.classList.remove("plugin-preview-links__link--loading");
-
-    const path = getPath(routeTemplate, publicVersion);
-
-    baseURLInstance.searchParams.set("draft", "false");
-    baseURLInstance.searchParams.set("redirect", path);
-
-    window.open(baseURLInstance);
-  } catch (e) {
-    console.error(e);
-    return;
-  }
-};
-
-const generateURL = (parsedSettings) => {
-  const url = new URL(
-    `${parsedSettings.base_url.replace(/\/+$/, "")}/api/flotiq/draft`,
-  );
-  url.searchParams.set("key", parsedSettings.editor_key);
-  return url;
-};
-
-export const updateLinkButtons = (
+export const updateLinks = (
   htmlElement,
-  parsedSettings,
-  buttonSettings,
-  contentObject,
+  config,
   formik,
   create,
+  publicVersionPromise,
 ) => {
-  const baseURLInstance = generateURL(parsedSettings);
+  const urlGenerator = new URLGenerator(config);
 
   const previewLink = htmlElement.querySelector(
     ".plugin-preview-links__preview-link",
@@ -95,38 +17,29 @@ export const updateLinkButtons = (
     ".plugin-preview-links__public-link",
   );
 
-  previewLink.onclick = (event) =>
-    onPreviewClick(
-      event,
-      previewLink,
-      baseURLInstance,
-      buttonSettings.route_template,
-      formik,
-      create,
-      !publicLink,
-    );
+  previewLink.href = urlGenerator.getURL(formik.initialValues, !!publicLink);
+
+  previewLink.onclick = (event) => {
+    event.preventDefault();
+    onPreviewClick(previewLink, urlGenerator, formik, create, !!publicLink);
+  };
 
   if (!publicLink) return;
 
-  const type = contentObject?.internal?.contentType;
-  const id = contentObject?.id;
-  const publicVersionPromise = cachedPublicVersions?.[type]?.[id];
-
   if (!publicVersionPromise) {
     publicLink.classList.add("plugin-preview-links__link--disabled");
+    publicVersionPromise.then((publicVersion) => {
+      publicLink.href = urlGenerator.getURL(publicVersion, !!publicLink);
+    });
   } else publicLink.classList.remove("plugin-preview-links__link--disabled");
 
-  publicLink.onclick = (event) =>
-    onPublicClick(
-      event,
-      publicLink,
-      publicVersionPromise,
-      baseURLInstance,
-      buttonSettings.route_template,
-    );
+  publicLink.onclick = (event) => {
+    event.preventDefault();
+    onPublicClick(publicLink, publicVersionPromise, urlGenerator);
+  };
 };
 
-export const createLinksItem = (isPublishingWorkflow) => {
+export const createLinks = (isPublishingWorkflow) => {
   const containerItem = document.createElement("div");
   containerItem.classList.add("plugin-preview-links__item");
 
