@@ -15,6 +15,14 @@ const createPanelElement = (cacheKey) => {
     </span>
     <div class="plugin-preview-links__button-list"></div>
   `;
+  panelElement.addEventListener(
+    "flotiq.attached",
+    () => {
+      if (!panelElement.parentElement) return;
+      panelElement.parentElement.style.order = "-1";
+    },
+    true,
+  );
 
   addElementToCache(panelElement, cacheKey);
 

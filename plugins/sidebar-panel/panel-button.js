@@ -1,5 +1,7 @@
 import { onPreviewClick, onPublicClick } from "./link-actions";
 import { URLGenerator } from "./URLGenerator";
+import previewIcon from "inline:../../images/preview-icon.svg";
+import publicIcon from "inline:../../images/public-icon.svg";
 
 export const updateLinks = (
   htmlElement,
@@ -46,16 +48,19 @@ export const createLinks = (isPublishingWorkflow) => {
   if (isPublishingWorkflow) {
     containerItem.innerHTML = /* html */ `
     <a class="plugin-preview-links__link plugin-preview-links__preview-link">
+        ${previewIcon}
         Preview and save draft
     </a>
     <a class="plugin-preview-links__link plugin-preview-links__public-link">
+        ${publicIcon}
         Public version
     </a>
   `;
   } else {
     containerItem.innerHTML = /* html */ `
     <a class="plugin-preview-links__link plugin-preview-links__preview-link">
-      Save and view
+        ${previewIcon}
+        Save and view
     </a>
   `;
   }
