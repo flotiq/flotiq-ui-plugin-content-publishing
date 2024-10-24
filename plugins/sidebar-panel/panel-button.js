@@ -20,9 +20,15 @@ export const updateLinks = (
     ".plugin-preview-links__public-link",
   );
 
-  previewLink.querySelector("span").textContent = publicLink
-    ? i18n.t("PreviewAndSave")
-    : i18n.t("SaveAndView");
+  if (create || formik.dirty) {
+    previewLink.querySelector("span").textContent = i18n.t(
+      publicLink ? "PreviewAndSave" : "SaveAndView",
+    );
+  } else {
+    previewLink.querySelector("span").textContent = i18n.t(
+      publicLink ? "Preview" : "View",
+    );
+  }
 
   previewLink.href = urlGenerator.getURL(formik.initialValues, !!publicLink);
 
@@ -58,7 +64,7 @@ export const createLinks = (isPublishingWorkflow) => {
     containerItem.innerHTML = /* html */ `
     <a class="plugin-preview-links__link plugin-preview-links__preview-link">
         ${previewIcon}
-        <span>Preview and save draft</span>
+        <span>Preview</span>
     </a>
     <a class="plugin-preview-links__link plugin-preview-links__public-link">
         ${publicIcon}
@@ -71,7 +77,7 @@ export const createLinks = (isPublishingWorkflow) => {
     containerItem.innerHTML = /* html */ `
     <a class="plugin-preview-links__link plugin-preview-links__preview-link">
         ${previewIcon}
-        <span>Save and view</span>
+        <span>View</span>
     </a>
   `;
   }

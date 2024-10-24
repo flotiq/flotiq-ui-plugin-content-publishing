@@ -31,6 +31,7 @@
   font-weight: 600;
   height: 36px;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   transition-property: color, background-color, filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -42,7 +43,7 @@
 .plugin-preview-links__preview-link {
   border: 2px solid #0083fc;
   border-radius: 8px;
-  padding: 0 14px;
+  width: 210px;
 }
 
 .plugin-preview-links__public-link {
@@ -128,6 +129,7 @@
   .plugin-preview-links__link {
     font-size: 12px;
     height: 32px;
+    width: 180px;
   }
 
   .plugin-preview-links__preview-link svg {
@@ -136,10 +138,6 @@
 
   .plugin-preview-links__public-link svg {
     width: 16px;
-  }
-
-  .plugin-preview-links__preview-link {
-    padding: 0 12px;
   }
 }
 

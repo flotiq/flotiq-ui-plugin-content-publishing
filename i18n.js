@@ -12,11 +12,13 @@ i18n.init({
         EditorKey: "Access authoriazation key",
         EditorKeyHelpText:
           "Key to view drafts and cache revalidation. It is defined in your application's environment variables",
+        Preview: "Preview",
         PreviewAndSave: "Preview and save draft",
         PublicVersion: "Public version",
         RouteTemplate: "Page route template",
         SaveAndView: "Save and view",
         UrlTemplate: "URL template",
+        View: "View",
       },
     },
     pl: {
@@ -28,11 +30,13 @@ i18n.init({
         EditorKeyHelpText:
           "Klucz umożliwiający podgląd draftów i rewalidacji cache. " +
           "Jest on zdefiniowany w zmiennych środowiskowych Twojej aplikacji",
+        Preview: "Podgląd",
         PreviewAndSave: "Zapis szkicu i podgląd",
         PublicVersion: "Wersja publiczna",
         RouteTemplate: "Szablon ścieżki do strony",
         SaveAndView: "Zapis i podgląd",
         UrlTemplate: "Szablon adresu URL",
+        View: "Podgląd",
       },
     },
   },
