@@ -51,6 +51,11 @@
 
 .plugin-preview-links__link svg {
   width: 18px;
+  height: auto;
+}
+
+.plugin-preview-links__preview-link svg {
+  width: 14px;
 }
 
 .plugin-preview-links__preview-link:hover {
@@ -60,7 +65,7 @@
 }
 
 .plugin-preview-links__preview-link:hover svg {
-  filter: brightness(100);
+  filter: contrast(0) brightness(100);
 }
 
 .plugin-preview-links__public-link:hover {
