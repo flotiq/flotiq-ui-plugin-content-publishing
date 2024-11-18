@@ -126,7 +126,8 @@
 }
 
 @media (max-width: 1536px) {
-  .plugin-preview-links__link {
+  .plugin-preview-links__link,
+  .plugin-preview-links__link:focus {
     font-size: 12px;
     height: 32px;
     width: 180px;
@@ -138,6 +139,11 @@
 
   .plugin-preview-links__public-link svg {
     width: 16px;
+  }
+
+  .plugin-preview-links__link--loading::before {
+    width: 16px;
+    height: 16px;
   }
 }
 

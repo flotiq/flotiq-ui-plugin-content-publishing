@@ -34,6 +34,7 @@ const updatePanelElement = (
   settingsForCtd,
   formik,
   create,
+  contentObject,
   isPublishingWorkflow,
   publicVersionPromise,
 ) => {
@@ -47,7 +48,14 @@ const updatePanelElement = (
       htmlItem = createLinks(isPublishingWorkflow);
       buttonList.appendChild(htmlItem);
     }
-    updateLinks(htmlItem, buttonSettings, formik, create, publicVersionPromise);
+    updateLinks(
+      htmlItem,
+      buttonSettings,
+      formik,
+      create,
+      contentObject,
+      publicVersionPromise,
+    );
     return htmlItem;
   });
 
@@ -106,6 +114,7 @@ export const handlePanelPlugin = (
     settingsForCtd,
     formik,
     create,
+    contentObject,
     isPublishingWorkflow,
     publicVersionPromise,
   );
