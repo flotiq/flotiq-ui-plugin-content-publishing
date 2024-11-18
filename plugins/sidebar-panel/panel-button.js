@@ -9,6 +9,7 @@ export const updateLinks = (
   config,
   formik,
   create,
+  contentObject,
   publicVersionPromise,
 ) => {
   const urlGenerator = new URLGenerator(config);
@@ -30,7 +31,7 @@ export const updateLinks = (
     );
   }
 
-  previewLink.href = urlGenerator.getURL(formik.initialValues, !!publicLink);
+  previewLink.href = urlGenerator.getURL(contentObject, !!publicLink);
 
   previewLink.onclick = (event) => {
     event.preventDefault();

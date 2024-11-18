@@ -9,7 +9,7 @@ The plugin generates links that let you open drafts and public versions of pages
 
 While editing your objects, you will now have access to new actions on the right hand-side:
 
-* Preview and save draft/Save and view - saves you current work and opens a preview of the latest content on your website
+* Save draft and Preview/Save and view - saves you current work and opens a preview of the latest content on your website
 * Public version - opens a public version of the content on your website. This button is only available when you using content publishing workflow
 
 Examples: 
@@ -36,7 +36,7 @@ Examples:
 
 To start, you may want to use http://localhost:3000 to easily navigate between Flotiq and your local development environment. This will be accessible to all developers working on the site locally. Once you have your page deployed and publicly visible, you should change this URL.
 
-### Access authoriazation key
+### Client Authorisation Key
 
 This key grants access to view drafts and perform cache revalidation on your website. Make sure to define it in your application's environment variables. Without this key, the plugin won't be able to preview unpublished content or update the cache effectively.
 

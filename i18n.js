@@ -9,11 +9,11 @@ i18n.init({
         BaseURL: "Page base URL",
         Config: "Links configuration",
         ContentTypes: "Content types",
-        EditorKey: "Access authoriazation key",
+        EditorKey: "Client Authorisation Key",
         EditorKeyHelpText:
           "Key to view drafts and cache revalidation. It is defined in your application's environment variables",
         Preview: "Preview",
-        PreviewAndSave: "Preview and save draft",
+        PreviewAndSave: "Save Draft and Preview",
         PublicVersion: "Public version",
         RouteTemplate: "Page route template",
         SaveAndView: "Save and view",
@@ -26,7 +26,7 @@ i18n.init({
         BaseURL: "Podstawowy adres strony",
         ContentTypes: "Definicje typu",
         Config: "Konfiguracja linków",
-        EditorKey: "Klucz autoryzujący dostęp",
+        EditorKey: "Klucz autoryzacji klienta",
         EditorKeyHelpText:
           "Klucz umożliwiający podgląd draftów i rewalidacji cache. " +
           "Jest on zdefiniowany w zmiennych środowiskowych Twojej aplikacji",
