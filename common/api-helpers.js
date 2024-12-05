@@ -9,21 +9,19 @@ export const getPublicVersion = (client, object) => {
     return null;
   }
 
-  const cachedVersion = cachedPublicVersions[type]?.[id];
-
   if (!publicVersion || publicVersion < 0) {
-    if (cachedVersion) delete cachedPublicVersions[type][id];
     return null;
   }
 
-  if (cachedVersion && cachedVersion?.inernal?.latestVersion === publicVersion)
-    return cachedPublicVersions[type][id];
+  const cachedVersion = cachedPublicVersions[type]?.[id]?.[publicVersion];
+  if (cachedVersion) return cachedVersion;
 
   if (!cachedPublicVersions[type]) cachedPublicVersions[type] = {};
+  if (!cachedPublicVersions[type][id]) cachedPublicVersions[type][id] = {};
 
-  cachedPublicVersions[type][id] = client[type]
+  cachedPublicVersions[type][id][publicVersion] = client[type]
     .getVersion(id, publicVersion)
     .then(({ body }) => body);
 
-  return cachedPublicVersions[type][id];
+  return cachedPublicVersions[type][id][publicVersion];
 };
