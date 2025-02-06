@@ -1,7 +1,7 @@
 const cachedPublicVersions = {};
 
 export const getPublicVersion = (client, object) => {
-  const publicVersion = object?.internal?.workflowPublicVersion;
+  const publicVersion = object?.internal?.publicVersion;
   const type = object?.internal?.contentType;
   const id = object?.id;
 
@@ -21,7 +21,11 @@ export const getPublicVersion = (client, object) => {
 
   cachedPublicVersions[type][id][publicVersion] = client[type]
     .getVersion(id, publicVersion)
-    .then(({ body }) => body);
+    .then(({ body }) => (
+      body.code === 200
+        ? body
+        : object
+    ));
 
   return cachedPublicVersions[type][id][publicVersion];
 };

@@ -107,7 +107,7 @@ export const handlePanelPlugin = (
   }
 
   const isPublishingWorkflow =
-    contentType.workflowId === "draft_public_archive";
+    contentType.draftPublic === true;
 
   updatePanelElement(
     pluginContainer,
