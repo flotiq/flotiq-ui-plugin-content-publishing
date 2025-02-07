@@ -76,9 +76,8 @@
 .plugin-preview-links__public-link:not(
     .plugin-preview-links__link--disabled
   ):hover
-  svg {
-  filter: contrast(1.05) brightness(0.7) sepia(0.1) saturate(1.2)
-    hue-rotate(6deg);
+svg {
+  filter: contrast(1.05) brightness(0.7) sepia(0.1) saturate(1.2) hue-rotate(6deg);
 }
 
 .plugin-preview-links__link--loading svg {
@@ -116,13 +115,19 @@
   background: #020617;
 }
 
-.mode-dark .plugin-preview-links__header {
+.mode-dark .plugin-preview-links__header,
+.mode-dark .plugin-preview-links__preview-link,
+.mode-dark .plugin-preview-links__public-link{
   color: white;
 }
 
-.mode-dark .plugin-preview-links__preview-link__button,
-.mode-dark .plugin-preview-links__public-link__button {
-  color: white;
+.mode-dark .plugin-preview-links__preview-link svg {
+  filter: contrast(0) brightness(100);
+}
+
+.mode-dark .plugin-preview-links__public-link svg,
+.mode-dark .plugin-preview-links__public-link:hover {
+  filter: contrast(0) brightness(100)!important;
 }
 
 @media (max-width: 1536px) {
