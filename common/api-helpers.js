@@ -2,6 +2,7 @@ const cachedPublicVersions = {};
 
 export const getPublicVersion = (client, object) => {
   // @todo return object based on header public, not version
+  // it requires to add in flotiq client method like getPublic(), listPublic etc. (or getDraft())
   const publicVersion = object?.internal?.publicVersion;
   const type = object?.internal?.contentType;
   const id = object?.id;
