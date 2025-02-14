@@ -9,7 +9,7 @@ export const getPublicVersion = (client, object) => {
     return null;
   }
 
-  if (!["modified", "draft"].includes(status)) {
+  if (!["modified", "public"].includes(status)) {
     return null;
   }
 
