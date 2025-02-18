@@ -122,10 +122,7 @@
   color: white;
 }
 
-.mode-dark .plugin-preview-links__preview-link svg {
-  filter: contrast(0) brightness(100);
-}
-
+.mode-dark .plugin-preview-links__preview-link svg,
 .mode-dark .plugin-preview-links__public-link svg {
   filter: contrast(0) brightness(100);
 }
@@ -133,8 +130,16 @@
 .mode-dark
   .plugin-preview-links__public-link:not(
     .plugin-preview-links__link--disabled
+  ):hover
+  svg {
+  filter: none;
+}
+
+.mode-dark
+  .plugin-preview-links__public-link:not(
+    .plugin-preview-links__link--disabled
   ):hover {
-  color: #015bd7;
+  color: #0083fc;
 }
 
 @media (max-width: 1536px) {
