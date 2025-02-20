@@ -1,7 +1,7 @@
 const cachedPublicVersions = {};
 
 export const getPublicVersion = (client, object) => {
-  const publicVersion = object?.internal?.workflowPublicVersion;
+  const status = object?.internal?.status;
   const type = object?.internal?.contentType;
   const id = object?.id;
 
@@ -9,19 +9,19 @@ export const getPublicVersion = (client, object) => {
     return null;
   }
 
-  if (!publicVersion || publicVersion < 0) {
+  if (!["modified", "public"].includes(status)) {
     return null;
   }
 
-  const cachedVersion = cachedPublicVersions[type]?.[id]?.[publicVersion];
+  const cachedVersion = cachedPublicVersions[type]?.[id]?.[status];
   if (cachedVersion) return cachedVersion;
 
   if (!cachedPublicVersions[type]) cachedPublicVersions[type] = {};
   if (!cachedPublicVersions[type][id]) cachedPublicVersions[type][id] = {};
 
-  cachedPublicVersions[type][id][publicVersion] = client[type]
-    .getVersion(id, publicVersion)
-    .then(({ body }) => body);
+  cachedPublicVersions[type][id][status] = client[type]
+    .get(id, true)
+    .then(({ body }) => (body.code === 200 ? body : object));
 
-  return cachedPublicVersions[type][id][publicVersion];
+  return cachedPublicVersions[type][id][status];
 };
