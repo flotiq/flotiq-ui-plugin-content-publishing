@@ -5,7 +5,6 @@ export const getSchema = (contentTypes) => ({
   id: pluginInfo.id,
   name: "publishing_links",
   label: "Publishing links",
-  workflowId: "generic",
   internal: false,
   schemaDefinition: {
     type: "object",
