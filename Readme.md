@@ -1,6 +1,6 @@
 [[_TOC_]]
 
-# Plain JS Plugin
+# Content Preview Plugin
 
 ## Overview
 The plugin generates links that let you open drafts and public versions of pages directly from the editor. With one click, users can quickly save and open the draft version, streamlining their workflow for maximum efficiency. It works best with Next.js-based sites that use draft mode.
