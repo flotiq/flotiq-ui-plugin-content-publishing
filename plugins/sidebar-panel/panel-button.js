@@ -7,7 +7,7 @@ import publicIcon from "inline:../../images/public-icon.svg";
 export const updateLinks = (
   htmlElement,
   config,
-  formik,
+  form,
   create,
   contentObject,
   publicVersionPromise,
@@ -21,7 +21,7 @@ export const updateLinks = (
     ".plugin-preview-links__public-link",
   );
 
-  if (create || formik.dirty) {
+  if (create || form.dirty) {
     previewLink.querySelector("span").textContent = i18n.t(
       publicLink ? "PreviewAndSave" : "SaveAndView",
     );
@@ -35,7 +35,7 @@ export const updateLinks = (
 
   previewLink.onclick = (event) => {
     event.preventDefault();
-    onPreviewClick(previewLink, urlGenerator, formik, create, !!publicLink);
+    onPreviewClick(previewLink, urlGenerator, form, create, !!publicLink);
   };
 
   if (!publicLink) return;

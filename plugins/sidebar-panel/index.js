@@ -32,7 +32,7 @@ const createPanelElement = (cacheKey) => {
 const updatePanelElement = (
   pluginContainer,
   settingsForCtd,
-  formik,
+  form,
   create,
   contentObject,
   isPublishingWorkflow,
@@ -51,7 +51,7 @@ const updatePanelElement = (
     updateLinks(
       htmlItem,
       buttonSettings,
-      formik,
+      form,
       create,
       contentObject,
       publicVersionPromise,
@@ -66,7 +66,7 @@ const updatePanelElement = (
 };
 
 export const handlePanelPlugin = (
-  { contentType, contentObject, create, formik },
+  { contentType, contentObject, create, form },
   getPluginSettings,
   client,
 ) => {
@@ -77,7 +77,7 @@ export const handlePanelPlugin = (
     (!contentObject && !create) ||
     !contentType?.name ||
     !parsedSettings ||
-    !formik
+    !form
   )
     return null;
 
@@ -106,13 +106,12 @@ export const handlePanelPlugin = (
     pluginContainer = createPanelElement(cacheKey);
   }
 
-  const isPublishingWorkflow =
-    contentType.draftPublic === true;
+  const isPublishingWorkflow = contentType.draftPublic === true;
 
   updatePanelElement(
     pluginContainer,
     settingsForCtd,
-    formik,
+    form,
     create,
     contentObject,
     isPublishingWorkflow,

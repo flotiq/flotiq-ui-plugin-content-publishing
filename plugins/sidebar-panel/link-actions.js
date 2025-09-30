@@ -20,23 +20,23 @@ const toogleLoading = (element, isLoading) => {
 export const onPreviewClick = async (
   element,
   urlGenerator,
-  formik,
+  form,
   create,
   isDraft,
 ) => {
   let error = false;
   let formikResponse;
 
-  if (create || formik.dirty) {
+  if (create || form.dirty) {
     toogleLoading(element, true);
-    formikResponse = await formik.submitForm();
+    formikResponse = await form.submitForm();
     error = !formikResponse || Object.keys(formikResponse?.[1] || {}).length;
     toogleLoading(element, false);
   }
 
   if (!error) {
     const url = urlGenerator.getURL(
-      formikResponse?.[0] || formik.values,
+      formikResponse?.[0] || form.getValues(),
       isDraft,
     );
     openLink(url);
