@@ -2,6 +2,9 @@
 
 # Content Preview Plugin
 
+> [!NOTE]
+> This plugin is archived because its functionality has been moved to Flotiq's core. You can still use it as an inspiration for your own plugins.
+
 ## Overview
 The plugin generates links that let you open drafts and public versions of pages directly from the editor. With one click, users can quickly save and open the draft version, streamlining their workflow for maximum efficiency. It works best with Next.js-based sites that use draft mode.
 
